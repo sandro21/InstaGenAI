@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background-color: #f90000;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background-color: #ffffff;
+}
