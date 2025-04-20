@@ -1,9 +1,16 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
-
 const app = express();
+const { OpenAI } = require('openai');
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+
 
 app.use(cors());
 app.use(express.json());
@@ -11,6 +18,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
+
+
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -46,55 +55,111 @@ async function isUsernameAvailable(username) {
   }
 }
 
-// ✅ POST route for generating & checking usernames
-app.post('/generate', async (req, res) => {
-  try {
-    const { niche } = req.body;
 
-    if (!niche || niche.trim() === '') {
-      return res.status(400).json({ error: 'Niche is required' });
-    }
-
-    const dummyUsernames = [
-      `@${niche}_vibes`,
-      `@daily_${niche}`,
-      `@${niche}gram`,
-      `@the${niche}spot`,
-      `@${niche}hub`,
-      `@${niche}_zone`,
-      `@real${niche}`,
-      `@${niche}_official`,
-      `@allabout${niche}`,
-      `@${niche}_daily`,
-      `@top_${niche}`,
-      `@${niche}central`,
-      `@go${niche}`,
-      `@${niche}_world`,
-      `@${niche}_explore`
-    ];
-
-    const availableUsernames = [];
-
-    for (let username of dummyUsernames) {
-      const clean = username.replace('@', '');
-      const isAvailable = await isUsernameAvailable(clean);
-
-      console.log(`🔍 ${username} is ${isAvailable ? '✅ available' : '❌ taken'}`);
-
-      if (isAvailable) {
-        availableUsernames.push(username);
+app.post('/generate-ai', async (req, res) => {
+    try {
+      const { niche } = req.body;
+  
+      if (!niche || niche.trim() === '') {
+        return res.status(400).json({ error: 'Niche is required' });
       }
-
-      await delay(2000); // 💤 Wait to avoid detection
+  
+      const prompt = `Generate a list of 15 short, creative, and modern Instagram usernames for a niche about "${niche}". 
+      Rules:
+      - Do NOT include numbers or underscores unless very minimal and useful
+      - Do NOT include explanations or paragraphs
+      - Only output raw usernames, one per line
+      - Do NOT include the usernames that have most likely been taken already and is very obvious.`;
+      
+      const chat = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.8
+      });
+      
+      const rawText = chat.choices[0].message.content;
+      
+      console.log("🧠 AI Raw Output:\n", rawText);
+      
+      const usernameList = rawText
+        .split('\n')
+        .map(line => line.replace(/^[\d\.\-\s@]+/, '').trim())
+        .filter(Boolean)
+        .map(u => u.startsWith('@') ? u : `@${u}`);
+      
+  
+      const availableUsernames = [];
+  
+      for (let username of usernameList) {
+        const clean = username.replace('@', '');
+        const isAvailable = await isUsernameAvailable(clean);
+  
+        console.log(`🤖 ${username} is ${isAvailable ? '✅ available' : '❌ taken'}`);
+  
+        if (isAvailable) {
+          availableUsernames.push(username);
+        }
+  
+        await delay(2000); // Same rate limit delay
+      }
+  
+      res.json({ usernames: availableUsernames });
+  
+    } catch (err) {
+      console.error("❌ AI Generation Error:", err.message);
+      res.status(500).json({ error: 'AI generation failed', details: err.message });
     }
+  });
+  
+// ✅ POST route for generating & checking usernames
+// app.post('/generate', async (req, res) => {
+//   try {
+//     const { niche } = req.body;
 
-    res.json({ usernames: availableUsernames });
+//     if (!niche || niche.trim() === '') {
+//       return res.status(400).json({ error: 'Niche is required' });
+//     }
 
-  } catch (err) {
-    console.error("❌ Backend Error:", err.message);
-    res.status(500).json({ error: 'Internal Server Error', details: err.message });
-  }
-});
+//     const dummyUsernames = [
+//       `@${niche}_vibes`,
+//       `@daily_${niche}`,
+//       `@${niche}gram`,
+//       `@the${niche}spot`,
+//       `@${niche}hub`,
+//       `@${niche}_zone`,
+//       `@real${niche}`,
+//       `@${niche}_official`,
+//       `@allabout${niche}`,
+//       `@${niche}_daily`,
+//       `@top_${niche}`,
+//       `@${niche}central`,
+//       `@go${niche}`,
+//       `@${niche}_world`,
+//       `@${niche}_explore`
+//     ];
+
+//     const availableUsernames = [];
+
+//     for (let username of dummyUsernames) {
+//       const clean = username.replace('@', '');
+//       const isAvailable = await isUsernameAvailable(clean);
+
+//       console.log(`🔍 ${username} is ${isAvailable ? '✅ available' : '❌ taken'}`);
+
+//       if (isAvailable) {
+//         availableUsernames.push(username);
+//       }
+
+//       await delay(2000); // 💤 Wait to avoid detection
+//     }
+
+//     res.json({ usernames: availableUsernames });
+
+//   } catch (err) {
+//     console.error("❌ Backend Error:", err.message);
+//     res.status(500).json({ error: 'Internal Server Error', details: err.message });
+//   }
+// });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
