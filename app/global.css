@@ -69,7 +69,7 @@ label {
     width: 70%;
     height: 60px;
     flex-shrink: 0;
-    border-radius: 50px;
+    border-radius: 15px;
     border: 2px solid #FFF;
     background: rgba(255, 255, 255, 0.27);
     box-shadow: 0px 3px 4.5px 0px rgba(255, 255, 255, 0.58);
@@ -101,7 +101,7 @@ label {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 3px 4.5px rgba(255, 255, 255, 0.58);
+    box-shadow: 0px 0px 4.5px rgba(255, 255, 255, 1);
     transition: all 0.3s ease-in-out;
   }
 
@@ -140,8 +140,8 @@ label {
   display: flex;
   justify-content: center;
   height: 65%;
-  width: 60%;
-  border-radius: 60px;
+  min-width: 40%;
+  border-radius: 50px;
   border: 2px solid #000;
   background: rgba(255, 255, 255, 0.90);
   box-shadow: 0px 5px 17.9px 0px rgba(0, 0, 0, 0.56);
