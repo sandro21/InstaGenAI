@@ -1,16 +1,15 @@
 "use client";
 
-
 import React, { useState } from 'react';
 import './global.css';
-
 
 export default function Page() {
   const [niche, setNiche] = useState('');
   const [usernames, setUsernames] = useState([]);
 
   const handleSubmit = async () => {
-    if (!niche.trim()) return;
+    console.log("🟢 Submit button clicked");
+    console.log("Niche input:", niche);
 
     try {
       const response = await fetch('http://localhost:5000/generate', {
@@ -20,9 +19,11 @@ export default function Page() {
       });
 
       const data = await response.json();
+      console.log("🟣 Response from server:", data);
+
       setUsernames(data.usernames || []);
     } catch (err) {
-      console.error('Error fetching usernames:', err);
+      console.error("🔴 Error while fetching:", err.message);
     }
   };
 
