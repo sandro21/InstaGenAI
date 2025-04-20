@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 
 .wrapper {
@@ -11,16 +11,160 @@
   flex-direction: row;
 }
 
+
+/* left panel */
 .left-panel {
   display: flex;
   flex-direction: column;
+  overflow-wrap: break-word;
+  border-radius: 0px 120px 120px 0px;
   width: 50%;
-  background-color: #f90000;
+  background: linear-gradient(335deg, #F9CE34 -16.13%, #EE2A7B 44.1%, #6228D7 104.32%);
+  word-wrap: break-word;   /* Allows long words to break */
+  overflow-wrap: break-word; /* Newer version, widely supported */
+  white-space: 30px;     /* Allows text to wrap */  
 }
 
+  header {
+    margin-top: 5%;
+    margin-left: 5%;
+    overflow-wrap:break-word;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    color: #ffffff;
+    font-weight: 900;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-weight: 300;
+    padding-right: 20%;
+  }
+
+  .input1 {
+    margin-top: 20%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+
+  }
+
+label {
+  font-weight: regular;
+  font-size: 1.3rem;
+}
+
+  .input1 label {
+    color: #FFF;
+  }
+
+  .input1 input {
+    width: 70%;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 50px;
+    border: 2px solid #FFF;
+    background: rgba(255, 255, 255, 0.27);
+    box-shadow: 0px 3px 4.5px 0px rgba(255, 255, 255, 0.58);
+    color: #FFF;
+    padding-left: 5%;
+    font-size: 1.2rem;
+    align-content: center;
+    margin-bottom: 50px;
+    
+  }
+
+  .input1 input::placeholder {
+    color: #FFF;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    margin-left: 4px;
+  }
+
+  .submit-button {
+    background-color: #fff;
+    border: none;
+    border-radius: 50px;
+    width: 20%;
+    height: 60px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 3px 4.5px rgba(255, 255, 255, 0.58);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .gradient-text {
+    background-image: linear-gradient(90deg, #7428CB, #D82B89, #F5914F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.5rem;
+  }
+  
+  
+  
+
+
+
+
+
+
+
 .right-panel {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  width: 50%;
   background-color: #ffffff;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 50%;
+  gap: 10px;
+}
+
+.step2container {
+  display: flex;
+  justify-content: center;
+  height: 50%;
+  width: 70%;
+  border-radius: 60px;
+  border: 2px solid #000;
+  background: rgba(255, 255, 255, 0.90);
+  box-shadow: 0px 5px 17.9px 0px rgba(0, 0, 0, 0.56);
+  backdrop-filter: blur(8.550000190734863px);
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.username-card {
+  padding: 12px 20px;
+  background: #f5f5f5;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+}
+
+.username-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
