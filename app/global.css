@@ -74,7 +74,7 @@ label {
     background: rgba(255, 255, 255, 0.27);
     box-shadow: 0px 3px 4.5px 0px rgba(255, 255, 255, 0.58);
     color: #FFF;
-    padding-left: 5%;
+    padding-left: 2%;
     font-size: 1.2rem;
     align-content: center;
     margin-bottom: 50px;
@@ -93,7 +93,7 @@ label {
     background-color: #fff;
     border: none;
     border-radius: 50px;
-    width: 20%;
+    width: 30%;
     height: 60px;
     font-size: 1.5rem;
     font-weight: bold;
@@ -136,15 +136,22 @@ label {
   gap: 10px;
 }
 
+.right-panel label {
+  font-size: 1.5rem;
+  color: #000;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
 .step2container {
   display: flex;
   justify-content: center;
   height: 65%;
   min-width: 40%;
   border-radius: 50px;
-  border: 2px solid #000;
   background: rgba(255, 255, 255, 0.90);
-  box-shadow: 0px 5px 17.9px 0px rgba(0, 0, 0, 0.56);
+  box-shadow: 0px 15px 10px rgba(255, 11, 170, 0.6), -10px 8px 24px rgba(110, 6, 247, 0.5), 10px 8px 36px rgba(255, 119, 0, 0.5);
+  border-color: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5) 1;
   backdrop-filter: blur(8.550000190734863px);
   flex-direction: column;
   gap: 10px;
@@ -170,4 +177,30 @@ label {
 .username-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.username-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0px;
+  padding: 3px 4px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.copy-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  padding-left:0px;
+  margin-left: 0px;
+}
+
+.copy-button:hover {
+  color: #000;
 }
