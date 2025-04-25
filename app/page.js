@@ -47,7 +47,7 @@ export default function Page() {
       <div className="left-panel">
         <header>
           <h1>InstaGen AI</h1>
-          <h2>Get creative, available Instagram usernames tailored by AI</h2>
+          <h2>AI-generated available Instagram usernames to make your page stand out</h2>
         </header>
         <div className="input1">
           <label htmlFor="input1">What is your page about? Try being Specific</label>
@@ -65,8 +65,8 @@ export default function Page() {
       </div>
 
       <div className="right-panel">
-        <label>Available Usernames</label>
         <div className="step2container">
+        <label>Available Usernames</label>
           {loading && <p>Loading...</p>}
 
           {!loading && usernames.length === 0 && <p>No usernames yet. Try something!</p>}
