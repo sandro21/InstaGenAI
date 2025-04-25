@@ -15,12 +15,16 @@ export default function Page() {
     console.log("🟢 Submitting AI generation with niche:", niche);
 
     try {
-      const response = await fetch('http://localhost:5000/generate-ai', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ niche })
-      });
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+      const response = await fetch(`${API_BASE_URL}/generate-ai`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ niche }),
+      });
+      
       const data = await response.json();
       console.log("🟣 Response from AI:", data);
 
