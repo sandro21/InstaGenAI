@@ -1,5 +1,4 @@
 require('dotenv').config();
-process.env.PUPPETEER_EXECUTABLE_PATH = require('puppeteer').executablePath();
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
