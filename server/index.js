@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+process.env.PUPPETEER_EXECUTABLE_PATH = require('puppeteer').executablePath();
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
@@ -31,8 +31,8 @@ async function isUsernameAvailable(username) {
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath: puppeteer.executablePath() // ✅ auto-detects installed Chrome
   });
+  
 
   
   const page = await browser.newPage();
