@@ -28,7 +28,12 @@ async function isUsernameAvailable(username) {
   const url = `https://www.instagram.com/${username}`;
   const cookies = JSON.parse(fs.readFileSync('cookies.json', 'utf8'));
 
-  const browser = await puppeteer.launch({ headless: true }); // 🔒 Run silently
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: '/opt/render/project/.cache/puppeteer/chrome/linux-136.0.7407.0/chrome' // OR use puppeteer.executablePath()
+  });
+  
   const page = await browser.newPage();
 
   try {
