@@ -16,7 +16,7 @@ export default function Page() {
 
     try {
       
-      const API_BASE_URL = 'http://localhost:5000';
+      const API_BASE_URL = 'https://instagenai.onrender.com';
 
 
       const response = await fetch(`${API_BASE_URL}/generate-ai`, {
