@@ -31,8 +31,9 @@ async function isUsernameAvailable(username) {
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath: '/opt/render/project/.cache/puppeteer/chrome/linux-136.0.7407.0/chrome' // OR use puppeteer.executablePath()
+    executablePath: puppeteer.executablePath() // ✅ auto-detects installed Chrome
   });
+
   
   const page = await browser.newPage();
 
