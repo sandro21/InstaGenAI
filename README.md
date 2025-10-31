@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## InstaGen AI — What this app does
 
-## Getting Started
+Generate creative Instagram usernames for a niche and automatically check whether they are available on Instagram. The app:
+- creates 10–15 niche‑specific username ideas using the OpenAI API
+- checks availability with a logged‑in Puppeteer session ✅
 
-First, run the development server:
+Stack: Next.js (frontend) + Express (backend) + Puppeteer + OpenAI.
+
+---
+
+## Local development
+
+Prerequisites: Node.js LTS, npm.
+
+1) Backend (Express)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd server
+npm install
+# install a local browser for Puppeteer
+npx puppeteer browsers install chrome
+
+# env for backend
+echo OPENAI_API_KEY=YOUR_KEY > .env
+
+npm run start
+# Server listens on http://localhost:5000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2) Frontend (Next.js)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Create `./.env.local` at the project root:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+```
 
-## Learn More
+Run the app:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install
+npm run dev
+# Open http://localhost:3000
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Troubleshooting
+- “Could not find Chrome …”: run `npx puppeteer browsers install chrome` inside `server/`.
+- If you previously set `PUPPETEER_*` env vars locally, unset them before running:
+  - Windows PowerShell: `Remove-Item Env:PUPPETEER_CACHE_DIR -ErrorAction SilentlyContinue`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Deployment (recommended: Vercel + Render)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Frontend (Vercel)
+- Env var: `NEXT_PUBLIC_API_BASE_URL=https://<your-render-service>.onrender.com`
+- Default Vercel build settings are fine.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Backend (Render — Web Service, root = `server/`)
+- Build Command:
+```bash
+npm install && npx puppeteer browsers install chrome
+```
+- Start Command:
+```bash
+npm run start
+```
+- Env vars:
+  - `OPENAI_API_KEY=...`
+  - `PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer`
+  - Do NOT set `PORT`, `PUPPETEER_EXECUTABLE_PATH`, or `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD`.
+
+After deploy, your frontend calls the backend via `NEXT_PUBLIC_API_BASE_URL`. 🚀
+
+---
+
+## Editing
+
+- Frontend entry: `app/page.js`
+- Backend entry: `server/index.js`
