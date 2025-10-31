@@ -35,7 +35,6 @@ async function isUsernameAvailable(username) {
         '--disable-dev-shm-usage',
         '--single-process'
     ],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || null
   });
   
   const page = await browser.newPage();
