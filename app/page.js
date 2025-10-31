@@ -7,6 +7,8 @@ export default function Page() {
   const [niche, setNiche] = useState('');
   const [usernames, setUsernames] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [purpose, setPurpose] = useState('');
+  const [bannedWords, setBannedWords] = useState('');
 
   const handleGenerateAI = async () => {
     if (!niche.trim()) return;
@@ -19,12 +21,16 @@ export default function Page() {
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
 
 
+      const payload = { niche };
+      if (purpose) payload.purpose = purpose;
+      if (bannedWords.trim()) payload.bannedWords = bannedWords.trim();
+
       const response = await fetch(`${API_BASE_URL}/generate-ai`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ niche }),
+        body: JSON.stringify(payload),
       });
       
       const data = await response.json();
@@ -57,13 +63,43 @@ export default function Page() {
         </header>
         <div className="input1">
           <label htmlFor="input1">What is your page about? Try being Specific</label>
-          <input
-            id="input1"
-            type="text"
-            placeholder="e.g. creating art with chalk"
-            value={niche}
-            onChange={(e) => setNiche(e.target.value)}
-          />
+          <div className="input-stack">
+            <div className="input-upper">
+              <input
+                id="input1"
+                type="text"
+                placeholder="e.g. creating art with chalk"
+                value={niche}
+                onChange={(e) => setNiche(e.target.value)}
+              />
+            </div>
+            <div className="input-lower">
+              <div className="input-col">
+                <select
+                  id="purpose-select"
+                  value={purpose}
+                  onChange={(e) => setPurpose(e.target.value)}
+                >
+                  <option value="">Account purpose (optional)</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Influencer">Influencer</option>
+                  <option value="Business">Business</option>
+                  <option value="Creative">Creative</option>
+                  <option value="Community">Community</option>
+                  <option value="Educational">Educational</option>
+                </select>
+              </div>
+              <div className="input-col">
+                <input
+                  id="banned-input"
+                  type="text"
+                  placeholder="Banned words (comma separated)"
+                  value={bannedWords}
+                  onChange={(e) => setBannedWords(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
           <button type="submit" className="submit-button" onClick={handleGenerateAI}>
             <span className="gradient-text">Generate</span>
           </button>

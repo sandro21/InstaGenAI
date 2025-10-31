@@ -52,9 +52,44 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 20px;
+    gap: 12px;
 
   }
+
+  /* Wrapper for input + tone so they move together */
+.input-stack {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 auto;
+}
+
+/* Upper row: search input only */
+.input-upper {
+  width: 100%;
+}
+
+/* Lower row: purpose dropdown + banned words input side by side */
+.input-lower {
+  width: 100%;
+  display: flex;
+  gap: 14px; /* more separation so the two fields feel distinct */
+  padding: 0 10%; /* horizontal padding to make total width smaller */
+}
+
+.input-col {
+  flex: 1;
+  display: flex;
+}
+
+/* Subtle style difference for the lower-row controls */
+.input-lower select,
+.input-lower input {
+  background: rgba(255, 255, 255, 0.18); /* less white */
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0px 2px 4px rgba(255, 255, 255, 0.35);
+}
 
 label {
   font-size: 1.3rem;
@@ -65,7 +100,7 @@ label {
   }
 
   .input1 input {
-    width: 70%;
+    width: 100%;
     height: 60px;
     flex-shrink: 0;
     border-radius: 15px;
@@ -76,9 +111,27 @@ label {
     padding-left: 2%;
     font-size: 1.2rem;
     align-content: center;
-    margin-bottom: 50px;
+    margin-bottom: 8px;
     
   }
+
+  /* Match select styling to the input */
+  .input1 select {
+    width: 100%;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 2px solid #FFF;
+    background: rgba(255, 255, 255, 0.27);
+    box-shadow: 0px 3px 4.5px 0px rgba(255, 255, 255, 0.58);
+    color: #FFF;
+    padding: 0 2%;
+    font-size: 1.1rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  .input1 select option { color: #000; }
 
   .input1 input::placeholder {
     color: #FFF;
@@ -102,6 +155,7 @@ label {
     justify-content: center;
     box-shadow: 0px 0px 4.5px rgba(255, 255, 255, 1);
     transition: all 0.3s ease-in-out;
+    margin-top: 24px; /* push the button further down */
   }
 
   
