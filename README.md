@@ -23,6 +23,10 @@ npx puppeteer browsers install chrome
 # env for backend
 echo OPENAI_API_KEY=YOUR_KEY > .env
 
+# Log in to Instagram (required for username availability checks)
+node loginAndSaveCookies.js
+# A browser window will open. Log in to Instagram, then press ENTER in the terminal.
+
 npm run start
 # Server listens on http://localhost:5000
 ```
