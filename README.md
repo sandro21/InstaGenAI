@@ -1,84 +1,129 @@
-## InstaGen AI — What this app does
+# InstaGen AI
 
-Generate creative Instagram usernames for a niche and automatically check whether they are available on Instagram. The app:
-- creates 10–15 niche‑specific username ideas using the OpenAI API
-- checks availability with a logged‑in Puppeteer session ✅
+Generate creative Instagram usernames for any niche and automatically check if they're available on Instagram.
 
-Stack: Next.js (frontend) + Express (backend) + Puppeteer + OpenAI.
+**Features:**
+- AI-generated username suggestions (10-15 per request)
+- Real-time availability checking via Instagram
+- Customizable by account purpose (Personal, Influencer, Business, Creative, Community, Educational)
+- Banned words filtering
 
----
-
-## Local development
-
-Prerequisites: Node.js LTS, npm.
-
-1) Backend (Express)
-
-```bash
-cd server
-npm install
-# install a local browser for Puppeteer
-npx puppeteer browsers install chrome
-
-# env for backend
-echo OPENAI_API_KEY=YOUR_KEY > .env
-
-# Log in to Instagram (required for username availability checks)
-node loginAndSaveCookies.js
-# A browser window will open. Log in to Instagram, then press ENTER in the terminal.
-
-npm run start
-# Server listens on http://localhost:5000
-```
-
-2) Frontend (Next.js)
-
-Create `./.env.local` at the project root:
-
-```bash
-NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
-```
-
-Run the app:
-
-```bash
-npm install
-npm run dev
-# Open http://localhost:3000
-```
-
-Troubleshooting
-- “Could not find Chrome …”: run `npx puppeteer browsers install chrome` inside `server/`.
-- If you previously set `PUPPETEER_*` env vars locally, unset them before running:
-  - Windows PowerShell: `Remove-Item Env:PUPPETEER_CACHE_DIR -ErrorAction SilentlyContinue`
+**Tech Stack:** Next.js (frontend) + Express (backend) + Puppeteer + OpenAI
 
 ---
 
-## Deployment (recommended: Vercel + Render)
+## Quick Start (Local Development)
 
-Frontend (Vercel)
-- Env var: `NEXT_PUBLIC_API_BASE_URL=https://<your-render-service>.onrender.com`
-- Default Vercel build settings are fine.
-
-Backend (Render — Web Service, root = `server/`)
-- Build Command:
-```bash
-npm install && npx puppeteer browsers install chrome
-```
-- Start Command:
-```bash
-npm run start
-```
-- Env vars:
-  - `OPENAI_API_KEY=...`
-  - `PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer`
-  - Do NOT set `PORT`, `PUPPETEER_EXECUTABLE_PATH`, or `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD`.
-
-After deploy, your frontend calls the backend via `NEXT_PUBLIC_API_BASE_URL`. 🚀
+### Prerequisites
+- Node.js LTS installed
+- npm installed
+- OpenAI API key ([get one here](https://platform.openai.com/api-keys))
+- Instagram account (for username availability checks)
 
 ---
 
-## Editing
+### Step 1: Backend Setup
 
-- Frontend entry: `app/page.js`
-- Backend entry: `server/index.js`
+1. **Navigate to server directory:**
+   ```bash
+   cd server
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+   *(Chrome browser installs automatically via postinstall script)*
+
+3. **Create environment file:**
+   ```bash
+   echo OPENAI_API_KEY=your_openai_key_here > .env
+   ```
+   Replace `your_openai_key_here` with your actual OpenAI API key.
+
+4. **Log in to Instagram:**
+   ```bash
+   node loginAndSaveCookies.js
+   ```
+   - A browser window will open
+   - Log in to your Instagram account
+   - Wait until you're fully logged in (feed loads)
+   - Press **ENTER** in the terminal to save cookies
+
+5. **Start the server:**
+   ```bash
+   npm run start
+   ```
+   Server runs on `http://localhost:5000`
+
+---
+
+### Step 2: Frontend Setup
+
+1. **Navigate to project root** (if you're still in `server/`):
+   ```bash
+   cd ..
+   ```
+
+2. **Create environment file:**
+   Create a file named `.env.local` in the project root with:
+   ```bash
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+4. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser:**
+   Go to `http://localhost:3000`
+
+---
+
+## How to Use
+
+1. Enter your niche (e.g., "branded cooking page where I post videos")
+2. (Optional) Select an account purpose from the dropdown
+3. (Optional) Add banned words separated by commas (e.g., "official, real, daily")
+4. Click **Generate**
+5. Wait for results — available usernames will appear in the right panel
+6. Click the 📋 icon to copy any username
+
+---
+
+## Troubleshooting
+
+**"Could not find Chrome" error:**
+- Manually run: `cd server && npx puppeteer browsers install chrome`
+
+**Puppeteer environment variable conflicts:**
+- Windows PowerShell: `Remove-Item Env:PUPPETEER_CACHE_DIR -ErrorAction SilentlyContinue`
+- Then restart your server
+
+**Instagram login issues:**
+- Re-run `node server/loginAndSaveCookies.js` to refresh cookies
+- Make sure you're fully logged in before pressing ENTER
+
+**Server not connecting:**
+- Verify backend is running on `http://localhost:5000`
+- Check that `.env.local` has the correct `NEXT_PUBLIC_API_BASE_URL`
+
+---
+
+## Project Structure
+
+- **Frontend:** `app/page.js` (main UI)
+- **Backend:** `server/index.js` (API routes)
+- **Cookies:** `server/cookies.json` (⚠️ never commit this file)
+
+---
+
+## Security Note
+
+Each user must log in with their own Instagram account. Cookies are stored locally and never shared. The `cookies.json` file is already in `.gitignore` to prevent accidental commits.
